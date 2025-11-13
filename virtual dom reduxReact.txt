@@ -1,0 +1,11 @@
+virtual dom
+reduxReact, 
+hooks 
+Routing
+lazy loading
+life cycle methods
+statemanagement
+Higher order components
+SSR vs CSR
+Testing
+Async tasks -events
