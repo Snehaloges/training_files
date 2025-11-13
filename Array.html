@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array Manipulation</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            margin:0;
+            padding:20px;
+            color: black;
+            background-color: antiquewhite;
+        }
+        h1{
+            text-align: center;
+            color:#0b2f82;
+        }
+        h2{
+            margin-top:25px;
+            color:#0b2f82;
+            border-bottom: 2px solid #474646;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .Array-container{
+            display: flex;
+            width:60%;
+            background-color: rgb(183, 240, 221);
+            margin:60px;
+            padding:20px;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap:20px;
+        }
+        input{
+            border:1px solid #c458eb;
+            border-radius:8px ;
+            width:60%;
+            margin:4px;
+            height:calc(100%+50px);
+            padding: 8px 10px;
+            font-size: 14px;
+            transition: 0.2s ease;
+        }
+        input:focus{
+            border-color:  rgb(236, 105, 12);
+        }
+        button{
+            padding: 8px 14px;
+            border: none;
+            font-weight: 500;
+            margin:4px;
+            width:100px;
+            height:50px;
+            background-color:rgb(246, 185, 73);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        button:hover{
+            background:rgb(236, 105, 12); 
+            transform: translateY(-2px);
+        }
+        #output{
+            background: rgb(164, 162, 162);
+            border-radius: 10px;
+            padding:15px;
+            margin-top: 20px;
+            font-weight: 500;
+            color:black;
+        }
+        .methods-container{
+            display: flex;
+            width:60%;
+            flex-direction: row;
+            margin-top:10px;
+            justify-content: flex-start;
+            align-items: center;
+            gap:10px;
+        }
+        #currentArray{
+            font-weight: bold;
+            color:black;
+        }
+        .section{
+            margin-bottom:20px;
+        } 
+    </style>
+
+</head>
+<body>
+    <div class="Array-container">
+        <h1>Array Manipulation</h1>
+        <div class="section">
+            <label>Enter Array Elements (comma-separated):</label>
+            <input type="text" value="1,2,3,4,5" id="arrayInput">
+            <button onclick="initializeArray()">Create Array</button>
+        </div>
+        
+        <p style="text-align: center;">Current Array: <span id="currentArray">[]</span></p>
+        <div id="output">[]</div>
+        <h2>Manipulation Methods</h2>
+        <div class="methods-container" style="justify-content: center;">
+            <button onclick="mapArray()">Map(*2)</button>
+            <button onclick="filterArray()">Filter(>2)</button>
+            <button onclick="reduceArray()">Reduce(Sum)</button>
+        </div>
+                
+        <div class="methods-container">
+            <input type="text"  id="elementInput" placeholder="Enter elements">
+            <button onclick="pushElements()">Push</button>
+            <button onclick="popElements()">Pop</button>  
+            <button onclick="shiftElements()">Shift</button> 
+            <button onclick="unshiftElements()">Unshift</button>
+        </div>
+        <div class="methods-container">
+            <input type="text"  id="sliceInput" placeholder="Start, end Eg.(1,2)">
+            <button onclick="sliceArray()">Slice</button>
+            <button onclick="sortArray()">Sort</button>
+            <button onclick="reverseArray()">Reverse</button>
+            
+        </div>
+        <div class="methods-container" >
+            <input type="text"  id="concatInput" placeholder="Enter elements to concat">
+            <button onclick="concatArray()">ConCat</button>
+        </div>
+        <div class="methods-container">
+            <input type="text"  id="spliceInput" placeholder="start,delete,newItem">
+            <button onclick="SpliceElements()">Splice</button>
+        </div>
+       
+</div>
+
+    <script>
+        let myArray=[]
+        const currentArraySpan= document.getElementById('currentArray');
+        const outputDiv=document.getElementById('output');
+        function updateDisplay(message= ""){
+            currentArraySpan.textContent=JSON.stringify(myArray);
+            outputDiv.innerHTML = message?`<p>${message}</p>`: "";
+        }
+        function initializeArray(){
+            const input = document.getElementById('arrayInput').value;
+            myArray= input.split(',').map(item=>item.trim());
+            updateDisplay("Array Initialized");
+        }
+        function pushElements(){
+            const element = document.getElementById('elementInput').value;
+            myArray.push(element);
+            updateDisplay(`Pushed:"${element}"`);
+        }
+        function popElements(){
+            const popped = myArray.pop()
+            updateDisplay(`Popped:"${popped}"`);
+        }        
+
+        function unshiftElements(){
+            const element = document.getElementById('elementInput').value;
+            myArray.unshift(element);
+            updateDisplay(`UnShifted:"${element}"`);
+        }
+        function shiftElements(){
+            const removed = myArray.shift();
+            updateDisplay(`shifted:"${removed}"`);
+        }
+        function SpliceElements(){
+            const args= document.getElementById("spliceInput").value.split(',').map(a=>a.trim());
+            const startIndex = parseInt(args[0]);
+            const deleteCount = parseInt(args[1]);
+            const newItem = args.slice(2);
+            const removed = myArray.splice(startIndex, deleteCount, ...newItem);
+            updateDisplay(`Spliced at ${startIndex}, removed ${JSON.stringify(removed)}`);
+        }
+            
+        function sliceArray(){
+            const args= document.getElementById("sliceInput").value.split(',').map(a=>a.trim());
+            const start = parseInt(args[0]);
+            const end= parseInt(args[1]);
+            const sliced = myArray.slice(start, end);
+            updateDisplay(`Sliced result: ${JSON.stringify(sliced)}`);
+        }
+            
+        
+        function sortArray(){
+            myArray.sort();
+            updateDisplay("Array Sorted");
+        }
+        function reverseArray(){
+            myArray.reverse();
+            updateDisplay("Array Reversed");
+        }
+        function mapArray(){
+            const mapped =myArray.map(x=> isNaN(x)?x:Number(x)*2);
+            updateDisplay(`Mapped(*2):${JSON.stringify(mapped)}`);
+        }
+        function filterArray(){
+            const filtered = myArray.filter(x=> !isNaN(x) && Number(x)>2);
+            updateDisplay(`Filtered(>2):${JSON.stringify(filtered)}`);
+        }
+        function reduceArray(){
+            const sum = myArray.reduce((acc,val)=>acc+(isNaN(val)?0:Number(val)),0);
+            updateDisplay(`Reduced(Sum):${sum}`);
+        }
+        function concatArray(){
+        const input = document.getElementById('concatInput').value;
+        const newArray= input.split(',').map(item=>item.trim());
+        combined = myArray.concat(newArray); 
+        updateDisplay(`Concatenated: ${JSON.stringify(combined)}`);
+        }
+    </script>
+</body>
+</html>

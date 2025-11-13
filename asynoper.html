@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1></h1>
+    <script>
+        function loadData(brand, callback) {
+            console.log("Fetching API")
+            setTimeout(() => {
+                let cloth = {
+                    type: "cotton",
+                    version: "western",
+                    brand: brand
+                }
+
+                callback(cloth)
+            }
+                , 1000)
+        }
+        function callbackResponse(cloth) {
+            if (error) {
+                console.error("API failed");
+            }
+            else {
+                console.log("API call success");
+                console.log("Cloth Brand :", cloth.brand)
+
+            }
+
+        }
+        loadData("nike", callbackResponse)
+
+
+
+
+        let loadData = function (brand) {
+            let promise = new Promise(function (resolve, reject) {
+                setTimeout(() => {
+                    let cloth = {
+                        type: "cotton",
+                        version: "western",
+                        brand: brand
+                    }
+                    //resolve(cloth);
+
+                    reject(error);
+                }
+                    , 1000);
+            });
+            promise.then(function (clothdata) {
+                alert("API Success");
+                console.log("cloth brand:", clothdata.brand);
+
+            })
+                .catch(function (error) {
+                    console.log("Does nt fetch");
+
+                });
+        }
+
+        loadData()
+
+
+
+        let loadData = async function (brand) {
+            try {
+                let promise = new Promise(function (resolve, reject) {
+                    setTimeout(() => {
+                        let cloth = {
+                            type: "cotton",
+                            version: "western",
+                            brand: brand
+                        };
+                        resolve(cloth);
+                        //reject(error);
+                    }
+                        , 1000);
+                });
+                let clothData = await promise;
+                alert("API Success");
+                console.log("cloth brand:", clothData.brand);
+            }
+            catch (error) {
+                console.log("Does nt fetch");
+
+            };
+
+
+        }
+        loadData("zara")
+
+   
+
+
+    </script>
+
+</body>
+
+</html>

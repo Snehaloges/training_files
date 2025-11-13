@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            max-height: 100vh;
+            background-color: #fff;
+            justify-content: center;
+            place-items: center;
+            display: flex;
+            margin-top: 100px;
+            box-sizing: border-box;
+        }
+        .margin-box {
+            padding: 70px;
+            border: 2px dashed darkgoldenrod;
+            position: relative;
+            background-color: rgb(222, 222, 109);
+        }
+
+        .margin-box::before {
+            content: "margin";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-weight: bold;
+        }
+
+        .paddingbox {
+            padding: 100px;
+            border: 1px dashed #4e4c4c;
+            background-color:rgb(208, 208, 208) ;
+            position: relative;
+
+        }
+        .paddingbox::after {
+            content: "padding";
+            position: absolute;
+            
+            font-weight: bold;
+        }
+        .border{
+            background: grey;
+            border: 2px dotted black;
+            padding:50px;
+            position: relative;
+        }
+        .border ::before{
+            content: "border";
+            position: absolute;
+            top:0;
+            left:0;
+            color:white;
+            font-weight:bold;
+            background: black;
+        }
+
+        .contentbox {
+            width: 500px;
+            height: 350px;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #666;
+            background-color: lightblue;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="margin-box">
+        <div class="border">
+            <div class="paddingbox">
+                <div class="contentbox">
+                    Page content
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

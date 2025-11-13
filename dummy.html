@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+    margin:0;
+    padding:0;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+.container{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+            background-color: white;
+            height: 100%;
+            column-gap:20px;
+            row-gap:20px;
+            width:100%;
+}
+h2{
+    text-align: center;
+    color:#8a47a3
+}
+ #output{
+            max-height:500px;
+            width:500px;
+            background: rgb(164, 162, 162);
+            border-radius: 10px;
+            padding:15px;
+            margin-top: 20px;
+            font-weight: 500;
+            color:black;
+            place-items: center;
+        }
+button {
+    display: flex;
+    place-content: center;
+    text-decoration: none;
+    padding: 10px;
+    margin: 8px 0;
+    font-size: 14px;
+    background-color:chocolate;
+    color:black;
+    border:none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+    </style>
+</head>
+<body>
+    <h2>Asynchronous in JS</h2>
+    <div class="container">
+        <button id="CallBackbtn"> CallBack</button>
+        <button id="promisebtn"> Promise</button>
+        <button id="asyncbtn">Async/Await</button>
+        
+    </div>
+    <div id="output">click a button..</div>
+    
+    <script>
+        const api = "https://jsonplaceholder.typicode.com/users";
+        const output = document.getElementById("output")
+
+        function loadData(callback){
+              output.textContent = "Fetching the data";
+        fetch(api) 
+        .then(response => response.json())
+        .then(data => { 
+            callback(null,data); 
+        })
+        .catch(error => {callback(error,null);
+    })
+        }
+    function handleResponse(error,data){
+        if(error){
+            output.textContent ="Error fetching data";
+         
+        }
+        else{
+            output.textContent =`Name:${data[0].name} , Email:${data[0].email}`;
+                console.log("Callback data",data)
+        }
+    }
+   document.getElementById('callBackbtn'), addEventListener("click",function(){
+    loadData(handleResponse);
+   });
+
+        document.getElementById('promisebtn'), addEventListener("click",()=>{
+            output.textContent = "Fetching the data";
+            fetch(api)
+            .then(res=>res.json())
+            .then(data=>{output.textContent =`Name:${data[0].name}\nEmail:${data[0].email}`;
+                console.log("Promise fetched data",data)
+                 })
+           
+       
+        .catch(err=>{
+            output.textContent ="Error fetching data";
+            console.log("error",err)
+        });
+    });
+
+
+
+     document.getElementById('asyncbtn'), addEventListener("click", async ()=>{
+            output.textContent = "Fetching the data"
+            try{
+                const res = await fetch(api);
+                const data = await res.json();
+            
+            output.textContent =`Name:${data[0].name} , Email:${data[0].email}`;
+                console.log("Async Await fetched data",data) }
+           
+            catch(err){
+            output.textContent ="Error fetching data";
+        };
+    });
+
+    </script>
+</body>
+</html>
