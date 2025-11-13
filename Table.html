@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table</title>
+    <style>
+        body{
+            margin:20px;
+            font-family: Arial, Helvetica, sans-serif;
+            align-items: center;
+        }
+        #tableContainer{
+            margin-top:20px;
+        }
+
+        #input-container{
+            background-color: #a07aae;
+            border:1px solid #8d0ebb;
+            margin-left: 30%;
+            width:40%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap:20px;
+            padding: 50px;
+            font-size: 14px; 
+            border-radius:5px;
+        }
+        #input-field{
+           
+                margin:20px 20px;
+                display: flex;
+                justify-content: space-between;
+                gap:20px;
+                text-align:left;
+        }
+        table{
+            margin:10% 35%;
+            border-collapse: collapse;
+            width: 40%;
+        }
+        th,td{
+            background-color: rgb(169, 235, 169);
+            padding:8px;
+            border:1px solid black;
+            text-align:center
+        }
+        td:hover{
+            background-color: aqua;
+            cursor: pointer;
+        }
+        h1{
+            text-align:center;
+            color:black;
+        }
+        label{
+            color:black;
+            font-weight:bold;
+            display: flex;
+            justify-content: flex-start;
+        }
+        .inputfield{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+
+        }
+        input{
+            border:1px solid #8a47a3;
+            border-radius:8px ;
+            width:60%;
+            height:calc(100%+50px);
+            padding: 8px 12px;
+            font-size: 14px; 
+           
+        }
+        #columns{
+            margin-right:8px;
+        }
+        button{
+            margin-left: 40%;
+            background-color: aqua;
+            width:100px;
+            height:60px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Table Creation</h1>
+    <div id="input-container">
+        <div class="inputfield">
+            <label for="rows" >Number of Rows:  </label>
+            <input type="number" id="rows" min="1" value="" placeholder="Number of Rows"/>
+        </div>
+        <div class="inputfield">
+            <label for ="columns" >Number of Columns:</label>
+            <input type="number" id="columns" min="1" value="" placeholder="Number of Columns"/>
+        </div>
+        <button  onclick="TableCreation()">Show Table</button>
+    </div>
+    <div id="tableContainer">
+
+    </div>
+
+    <script>
+
+        function TableCreation(){
+            const numrows= document.getElementById('rows').value;
+            const numcols= document.getElementById('columns').value;
+            const tableContainer= document.getElementById('tableContainer');
+            tableContainer.innerHTML='';
+            const table= document.createElement('table');
+            const tbody = document.createElement('tbody');
+
+
+                
+            for (let i=0; i < numrows;i++){
+                const row = document.createElement('tr');
+               
+              
+            for(let j=0; j < numcols; j++){
+                const cell = document.createElement('td');
+                cell.textContent=`Row ${i+1},Col ${j+1}`;
+      
+                row.appendChild(cell);
+          
+            }
+            tbody.appendChild(row);
+            }
+            
+            table.appendChild(tbody);
+            tableContainer.appendChild(table);
+        }
+    </script>
+</body>
+</html>

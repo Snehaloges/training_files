@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Manipulation</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            font-size:16px;
+            justify-content: center;
+            align-items: center;
+        }
+        .input-container{
+            display: flex;
+            flex-direction: column;
+            gap:10px;
+            justify-content: center;
+        }
+        h1{
+            display: flex;
+            align-items: center;
+            width:70%;
+            justify-content: center;
+            height:100px;
+            background-color: aqua;
+        }
+        .main-container{
+            display:flex;
+            flex-direction: column;
+            width:60%;
+            gap:10px;
+            justify-content: center;
+            place-content: center;
+            border: 1px solid #ddd;
+            padding:20px;  
+        }
+        label{
+            font-weight: bold;
+        }
+        input{
+            border:1px solid #8a47a3;
+            border-radius:8px ;
+            width:60%;
+            height:calc(100%+50px);
+            padding: 8px 12px;
+            font-size: 14px; 
+
+        }
+        .button-container{
+            display:flex;
+            gap:10px;
+        }
+        button{
+            cursor: pointer;
+            background-color: rgb(243, 186, 61);
+            width:200px;
+            height:60px;
+            font-size: 14px;
+            font-weight: bold;
+
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Object Manipulation</h1>
+    <div class="main-container">
+        <div class="input-container">
+            <label for="objectname">ObjectName:</label>
+            <input type="text"  id="objectName" placeholder="Enter your object name">
+            <label for="Key">Key:</label>
+            <input type="text"  id="KeyInput" placeholder="Enter Key:">
+            <label for="Value">Value:</label>
+            <input type="text"  id="ValueInput" placeholder="Enter Value:">
+        </div>
+        <div class="button-container">
+            <button onclick="addUpdate() "style="background-color:green">Add/Update</button>
+            <button onclick="updateKey()"> Update key</button>
+            <button onclick="updateObject()"> Update Object</button>
+            <button onclick="deleteProperty()">Delete Property</button>
+            <button onclick="deleteObject()">Delete Object</button>
+            <button onclick="showAll()">Show Objects</button>
+            <button onclick="clearAll()"style="background-color:rgb(243, 113, 61)"> Clear </button>
+            
+        </div>
+        <h3>Current Objects:</h3>
+        <div id="output">{ }</div>
+    </div>
+    <script>
+        const store ={ }
+        function addUpdate(){
+            const key= document.getElementById('KeyInput').value.trim();
+            const value= document.getElementById('ValueInput').value.trim();
+            const object= document.getElementById('objectName').value.trim();
+            if(!key || !object){
+                alert("Please Enter your object name and key name")
+                return;
+            }
+
+            if(!store[object]){
+                store[object]={}
+            }
+            
+                if(key){
+                    store[object][key]=value;
+                }
+            
+                else if(value.includes(':')){
+                const pairs =value.split(',');
+                for (const pair of pairs){
+                    const [propKey, propValue] = pair.split(':').map(s=>s.trim());
+                    if(propKey && propValue !== undefined){
+                        store[object][propKey] = propValue;
+                    }
+                }
+            }else{
+                alert("Please enter a key and value pairs")
+                return;
+            }
+            showAll();
+        }
+         
+         function updateObject() {
+            const oldobj = prompt("Enter your  existing object name:");
+            const newobj = prompt("Ener a updating object name:");
+            if (!oldobj || !newobj) {
+                alert("Please enter an  both names.");
+                return;
+            }
+
+            if (!store.hasOwnProperty(oldobj)) {
+                alert("Old object not found");
+                return;
+            }
+
+            store[newobj] ={...store[newobj],...store[oldobj]};
+            delete store[oldobj];
+            showAll();
+         }
+         function updateKey(){
+            const object = prompt("Enter object name:")
+            if(!object || !store[object]) return alert("objecs not found");
+            const oldKey= prompt("Enter your  existing Key name:");
+            const newKey = prompt("Ener a updating Key name:");
+            if (!oldKey || !newKey) {
+                alert("Please enter an  both names.");
+                return;
+            }
+
+            if (!store[object].hasOwnProperty(oldKey)) {
+                alert("Old okey not found");
+                return;
+            }
+
+            store[object][newKey] =store[object][oldKey];
+            delete store[object][oldKey];
+            showAll();
+
+         }
+        
+            function deleteProperty(){
+                const object= document.getElementById( 'objectName').value.trim();
+                const key= document.getElementById('KeyInput').value.trim();
+
+                if(store[object] && key in store[object]){
+                    delete store[object][key];
+                    alert(`Deleted property "${key}" from '${object}'`);
+                }
+                else{
+                    alert("Key or object not found");
+                }
+                showAll();
+            }
+            function deleteObject(){
+                const object= document.getElementById('objectName').value.trim();
+                if(store[object]){
+                    delete store[object];
+                    alert(`Deleted object "${object}"`);
+                }
+                else{
+                    alert("Object not found");
+                }
+                showAll();
+            }
+            function showAll(){
+                document.getElementById("output").textContent = JSON.stringify(store,null);
+            }
+            function clearAll(){
+                for (let key in store){
+                    delete store[key];
+                }
+                showAll();
+            }
+            showAll();
+    </script>
+</body>
+</html>
